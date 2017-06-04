@@ -2,7 +2,7 @@
 
 ## 
 
-## Atack SYN FLOOD
+## Atack SYN Flood
 
 ### Developers:
 
