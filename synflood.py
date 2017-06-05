@@ -1,3 +1,8 @@
+# Developed by GABRIEL PEREIRA PINHEIRO and VICTOR ARAUJO VIEIRA
+# In the University of Brasilia on 2017 
+# Atack SYN flood
+
+
 import socket, sys
 from struct import *
  
