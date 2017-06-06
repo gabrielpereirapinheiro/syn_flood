@@ -25,11 +25,9 @@ def checksum(msg):
     return s
 
 def show_who(ip,porta):
-
-    print 'O servidor esta sendo atacado pelo ip ',ip,'na porta',porta
-
-
-
+    print '-------------------------------------------------------------------'
+    print ' O servidor esta sendo atacado pelo ip ',ip,'na porta',porta,
+    print '\n-------------------------------------------------------------------\n'
 
 def attack(porta): 
     #create a raw socket
