@@ -24,9 +24,12 @@ def checksum(msg):
      
     return s
 
+def show_begin():
+    print ':X :X :X :X Incio do ataque ! :X :X :X :X '
+
 def show_who(ip,porta):
     print '-------------------------------------------------------------------'
-    print ' O servidor esta sendo atacado pelo ip ',ip,'na porta',porta,
+    print ' O servidor esta sendo atacado pelo IP: ',ip,'na Porta:',porta,
     print '\n-------------------------------------------------------------------\n'
 
 def attack(porta): 
@@ -50,7 +53,7 @@ def attack(porta):
     #source_ip = '.'.join('%s'%random.randint(2, 254) for i in range(4)) 
     source_ip = '192.168.0.18'
     #dest_ip = '192.168.0.101' # victor
-    dest_ip = '192.168.0.1' # gabriel
+    dest_ip = '192.168.0.17' # gabriel
     
     show_who(source_ip,porta)
 
@@ -139,6 +142,7 @@ ataque3 = Thread(target=attack,args=[7002])
 ataque4 = Thread(target=attack,args=[8003])
 #time = Thread(target=count_time,args=[10,begin,time_until_now])
 
+show_begin()
 
 ataque2.start()
 ataque1.start()
