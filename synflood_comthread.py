@@ -188,5 +188,5 @@ try:
 	main()
 except KeyboardInterrupt:
 	for thr in ataque:
-		thr.kill_received = True
+		thr.join()
 
