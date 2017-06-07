@@ -156,34 +156,37 @@ def count_time(max):
             begin = time.time()
         	
 
-
-
-
-qnt = menu()
-
-print qnt
-
 ataque = []
 
-for i in range(0, qnt):
-	
-	ataque.append(Thread(target = attack, args = [i]))
-	
+def main():
+
+	qnt = menu()
+
+	for i in range(0, qnt):
+		
+		ataque.append(Thread(target = attack, args = [i]))
+		
+	# ataque1 = Thread(target=attack,args=[5000])
+	# ataque2 = Thread(target=attack,args=[6001])
+	# ataque3 = Thread(target=attack,args=[7002])
+	# ataque4 = Thread(target=attack,args=[8003])
+	#time = Thread(target=count_time,args=[10])
+
+	show_begin()
+
+	for i in range (0, qnt):
+		ataque[i].start()
+
+	# ataque2.start()
+	# ataque1.start()
+	# ataque3.start()
+	# ataque4.start()
+	#time.start()
 
 
-# ataque1 = Thread(target=attack,args=[5000])
-# ataque2 = Thread(target=attack,args=[6001])
-# ataque3 = Thread(target=attack,args=[7002])
-# ataque4 = Thread(target=attack,args=[8003])
-#time = Thread(target=count_time,args=[10])
+try:
+	main()
+except KeyboardInterrupt:
+	for thr in ataque:
+		thr.kill_received = True
 
-show_begin()
-
-for i in range (0, qnt):
-	ataque[i].start()
-
-# ataque2.start()
-# ataque1.start()
-# ataque3.start()
-# ataque4.start()
-#time.start()
