@@ -152,16 +152,27 @@ def count_time(max):
 
 
 
-ataque1 = Thread(target=attack,args=[5000])
-ataque2 = Thread(target=attack,args=[6001])
-ataque3 = Thread(target=attack,args=[7002])
-ataque4 = Thread(target=attack,args=[8003])
+ataque = []
+
+for i in range(0, 4):
+	porta = 5000
+	ataque.append(Thread(target = attack, args = [porta]))
+	porta += 500
+
+
+# ataque1 = Thread(target=attack,args=[5000])
+# ataque2 = Thread(target=attack,args=[6001])
+# ataque3 = Thread(target=attack,args=[7002])
+# ataque4 = Thread(target=attack,args=[8003])
 #time = Thread(target=count_time,args=[10])
 
 show_begin()
 
-ataque2.start()
-ataque1.start()
-ataque3.start()
-ataque4.start()
+for i in range (0, 4):
+	ataque[i].start()
+
+# ataque2.start()
+# ataque1.start()
+# ataque3.start()
+# ataque4.start()
 #time.start()

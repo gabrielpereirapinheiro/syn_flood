@@ -38,10 +38,11 @@ packet = '';
 
 #gera um ip de origem aleatorio, mas com os intervalos sempre de 2 a 254
 #para evitar que sejam todos 255 ou tenha 0.0.0.0
+#source_ip = '.'.join('%s'%random.randint(2, 254) for i in range(4)) 
 source_ip = '.'.join('%s'%random.randint(2, 254) for i in range(4)) 
 print 'IP aleatorio gerado: ', source_ip
-dest_ip = '192.168.0.101' # victor
-#dest_ip = '192.168.0.1' # gabriel
+#dest_ip = '192.168.0.101' # victor
+dest_ip = '192.168.0.1' # gabriel
  
 # ip header fields
 ihl = 5
