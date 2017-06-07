@@ -26,6 +26,7 @@ This program going to do an attack on spefic addres IP. The program going to sen
 
 ### How to execute :
 
+>.$ sudo python synflood_comthread.py
 
 ### Results :
 
