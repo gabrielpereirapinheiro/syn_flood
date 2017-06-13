@@ -6,9 +6,9 @@
 
 ### Developers:
 
-- Gabriel Pereira Pinheiro - 14/0020764
+- Gabriel Pereira Pinheiro 
 
-- Victor Araujo Vieira - 14/0032801
+- Victor Araujo Vieira 
 
 ### Email :
 
