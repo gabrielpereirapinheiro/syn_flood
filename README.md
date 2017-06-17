@@ -21,7 +21,7 @@ ________________________________________________________________________________
 
 ### Introduction :
 
-This program going to do an attack on spefic addres IP. The program going to sent plenty of message to server, making 
+This program going to do an attack on spefic addres IP. The program going to sent plenty of message to server, making ...
 
 
 ### How to execute :
