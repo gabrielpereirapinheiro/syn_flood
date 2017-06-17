@@ -28,7 +28,3 @@ This program going to do an attack on spefic addres IP. The program going to sen
 
 >.$ sudo python synflood_comthread.py
 
-### Results :
-
-
-### Conclusions
