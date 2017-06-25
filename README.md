@@ -24,7 +24,9 @@ This program going to do an attack on spefic addres IP.The attack name is [SYN F
 
 ### How to execute :
 
-- Open the terminal and execute :
+- First you need to put the server ip address on line 165 in the code ```synflood_comthread.py```. 
+
+- After this, open the terminal and execute :
 
 >.$ sudo python synflood_comthread.py
 
