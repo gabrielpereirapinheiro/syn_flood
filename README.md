@@ -1,20 +1,5 @@
-# Univeristy of Brasilia - UnB
 
-## Atack SYN Flood
-
-### Developers:
-
-- Gabriel Pereira Pinheiro 
-
-- Victor Araujo Vieira 
-
-### Email :
-
-- gabriel.pereira.pinheiro@gmail.com
-
-- icevct@gmail.com
-
-__________________________________________________________________________________________________________________________________________
+# Atack SYN Flood
 
 
 ### Introduction :
