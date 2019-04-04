@@ -20,6 +20,6 @@ dest_ip = '192.168.0.1'
 
 - After this, open the terminal and execute :
 ```	
->.$ sudo python synflood_comthread.py
+>.$ sudo python synflood.py
 
 ```	
