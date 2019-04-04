@@ -11,7 +11,12 @@
 
 ### How to execute :
 
-- First you need to put the server ip address on line 165 in the code ```synflood_comthread.py```. 
+- Before you start, change the server ip address on **line 165** in the code ```synflood.py```. 
+
+```py
+# Set dest_ip with the IP address
+dest_ip = '192.168.0.1' 
+```
 
 - After this, open the terminal and execute :
 ```	
